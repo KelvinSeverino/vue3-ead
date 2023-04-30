@@ -1,4 +1,4 @@
-import BaseService from "./BaseService"
+import BaseService from "./base.service"
 
 export default class AuthService extends BaseService {
 
