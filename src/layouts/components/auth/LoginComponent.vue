@@ -46,7 +46,7 @@
                     <input type="password" name="password" placeholder="Senha" required>
                     <i class="far fa-eye buttom"></i>
                 </div>
-                <button class="btn primary" type="submit" @click.prevent="login">Login</button>
+                <button class="btn primary" type="submit" @click.prevent="auth">Login</button>
             </form>
             <span>
                 <p class="fontSmall">Esqueceu sua senha? 
@@ -61,15 +61,28 @@
 </template>
 
 <script>
-import router from '@/router/index'
+//import router from '@/router'
+import { useStore } from 'vuex'
 
 export default {
     name: 'login-component',
     setup() {
-        const login = () => router.push({name: 'ead.home'})
+        const store = useStore()
+
+        //const login = () => router.push({name: 'ead.home'})
+
+        const auth = () => {
+            //Chamando action auth da AuthService
+            store.dispatch('auth', {
+                email: 'kelvin@email.com.br',
+                password: '1234',
+                device_name: 'authbyvue3'
+            })
+        }
 
         return {
-            login
+            //login,
+            auth
         }
     }
 }

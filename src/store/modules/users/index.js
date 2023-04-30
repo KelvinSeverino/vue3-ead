@@ -1,5 +1,7 @@
+import AuthService from '@/services/AuthService'
+
 export default {
-    state: {
+    state: { //Dados que serao guardados
         user: {
             name: '',
             email: '',
@@ -7,7 +9,7 @@ export default {
         loggedIn: false, //Informa se user esta logado
     },
 
-    mutations: {
+    mutations: { //Metodos para alterar dados antes de guarda-los
         SET_USER (state, userInput) {
             state.user = userInput
             state.loggedIn = true
@@ -21,6 +23,10 @@ export default {
         }
     },
 
-    actions: {
+    actions: { //Executa metodos Services para comunicar com API
+        auth ({ state }, params) {
+            console.log(state.loggedIn)
+            AuthService.auth(params)
+        }
     },
 }
