@@ -74,6 +74,7 @@
 //import router from '@/router'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { notify } from "@kyvg/vue3-notification";
 
 import router from '@/router'
 
@@ -97,7 +98,18 @@ export default {
                 device_name: 'vue3_web'
             })
             .then(() => router.push({name: 'ead.home'}))
-            .catch(() => alert("Acesso Negado!"))
+            .catch(error => {
+                let msgError = 'Falha na Requisição'
+                
+                if(error.status === 422) msgError = 'Dados Inválidos'
+                if(error.status === 404) msgError = 'Usuário não encontrado'
+
+                notify({
+                    title: 'Falha ao autenticar',
+                    text: msgError,
+                    type: 'error'
+                })
+            })
             .finally(() => loading.value = false)
         }
 

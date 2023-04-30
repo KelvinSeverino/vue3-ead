@@ -68,6 +68,7 @@
 <script>
 //import router from '@/router'
 import { ref } from 'vue'
+import { notify } from "@kyvg/vue3-notification";
 
 import router from '@/router'
 import ResetPasswordService from '@/services/password.reset.service'
@@ -93,8 +94,22 @@ export default {
                 password: password.value,
                 token: props.token
             })
-            .then(() => router.push({name: 'auth'}))
-            .catch(() => alert("Acesso Negado!"))
+            .then(() => {
+                notify({
+                    title: 'Sucesso',
+                    text: 'Senha Atualizada com sucesso',
+                    type: 'success'
+                })
+
+                router.push({name: 'auth'})
+            })
+            .catch(() => {
+                notify({
+                    title: 'Falha',
+                    text: 'Falha ao recuperar o usuário',
+                    type: 'error'
+                })
+            })
             .finally(() => loading.value = false)
         }
 
