@@ -4,6 +4,7 @@ import MySupports from '@/views/supports/MySupportsView.vue'
 import ModulesAndLessons from '@/views/modules/ModulesAndLessonsView.vue'
 import AuthView from '@/views/auth/AuthView.vue'
 import ForgetPasswordView from '@/views/auth/ForgetPasswordView.vue'
+import ResetPasswordView from '@/views/auth/ResetPasswordView.vue'
 
 const routes = [
     {
@@ -36,6 +37,12 @@ const routes = [
         path: '/recuperar-senha',
         name: 'forget.password',
         component: ForgetPasswordView
+    },
+    {
+        path: '/reset/:token',
+        name: 'reset.password',
+        component: ResetPasswordView,
+        props: true,
     },
 ]
 
