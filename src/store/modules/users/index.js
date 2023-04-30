@@ -25,8 +25,8 @@ export default {
 
     actions: { //Executa metodos Services para comunicar com API
         auth ({ state }, params) {
-            console.log(state.loggedIn)
-            AuthService.auth(params)
+            state.loggedIn
+            return AuthService.auth(params)
         }
     },
 }

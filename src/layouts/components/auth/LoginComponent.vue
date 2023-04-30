@@ -39,14 +39,24 @@
             <form action="/dist/index.html" method="">
                 <div class="groupForm">
                     <i class="far fa-envelope"></i>
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="email" name="email" placeholder="E-mail" v-model="email" required>
                 </div>
                 <div class="groupForm">
                     <i class="far fa-key"></i>
-                    <input type="password" name="password" placeholder="Senha" required>
+                    <input type="password" name="password" placeholder="Senha" v-model="password" required>
                     <i class="far fa-eye buttom"></i>
                 </div>
-                <button class="btn primary" type="submit" @click.prevent="auth">Login</button>
+                <button 
+                    :class="[
+                        'btn', 
+                        'primary',
+                        loading ? 'loading' : ''
+                    ]"
+                    type="submit" 
+                    @click.prevent="auth">
+                    <span v-if="loading">Enviando...</span>
+                    <span v-else>Login</span>
+                </button>
             </form>
             <span>
                 <p class="fontSmall">Esqueceu sua senha? 
@@ -62,27 +72,41 @@
 
 <script>
 //import router from '@/router'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
+
+import router from '@/router'
 
 export default {
     name: 'login-component',
     setup() {
         const store = useStore()
-
         //const login = () => router.push({name: 'ead.home'})
 
+        const email = ref("")
+        const password = ref("")
+        const loading = ref("")
+
         const auth = () => {
+            loading.value = true
+
             //Chamando action auth da AuthService
             store.dispatch('auth', {
-                email: 'kelvin@email.com.br',
-                password: '1234',
-                device_name: 'authbyvue3'
+                email: email.value,
+                password: password.value,
+                device_name: 'vue3_web'
             })
+            .then(() => router.push({name: 'ead.home'}))
+            .catch(() => alert("Acesso Negado!"))
+            .finally(() => loading.value = false)
         }
 
         return {
             //login,
-            auth
+            auth,
+            email,
+            password,
+            loading,
         }
     }
 }
