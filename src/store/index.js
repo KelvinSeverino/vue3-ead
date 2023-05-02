@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 
 import users from './modules/users/'
+import courses from './modules/courses/'
 
 export default createStore({
     state: { //Dados que serao guardados
@@ -12,6 +13,7 @@ export default createStore({
     actions: { //Metodos que gerao acao no projeto
     },
     modules: { //Organiza projeto em modulos
-    users
+        users,
+        courses
     }
 })
