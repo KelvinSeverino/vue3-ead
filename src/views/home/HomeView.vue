@@ -20,10 +20,23 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
+
 import CardCourse from './components/CardCourse.vue'
 
 export default {
     name: 'HomeView',
+    
+    setup() {
+        const store = useStore()
+
+        //Quando montar o componente
+        onMounted(() => {
+            store.dispatch('getCourses') //Roda action getCourses
+        })
+    },
+
     components: {
         CardCourse
     }
