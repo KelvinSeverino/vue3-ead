@@ -11,8 +11,10 @@
     <div class="content">
         <ul class="listCourses">
             <card-course
-                :title="'Curso de Laravel com Vue.js'"
-                :image="''"
+                v-for="course in courses"
+                :key="course.id"
+                :title="course.name"
+                :image="course.image"
                 :bgName="'laravel'">
             </card-course>
         </ul>
@@ -20,7 +22,7 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 
 import CardCourse from './components/CardCourse.vue'
@@ -31,10 +33,16 @@ export default {
     setup() {
         const store = useStore()
 
+        const courses = computed(() => store.state.courses.myCourses)
+
         //Quando montar o componente
         onMounted(() => {
             store.dispatch('getCourses') //Roda action getCourses
         })
+
+        return {
+            courses
+        }
     },
 
     components: {
