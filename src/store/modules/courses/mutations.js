@@ -8,7 +8,23 @@ const mutations = {
     //Setando curso selecionado na propriedade courseSelected
     SET_COURSE_SELECTED (state, course) {
         state.courseSelected = course
-    }
+    },
+
+    //Setando a aula selecionada para carregar o Player de Video
+    SET_LESSON_PLAYER (state, lesson) {
+        state.lessonPlayer = lesson
+    },
+    
+    //Removendo a aula selecionada para carregar o Player de Video
+    REMOVE_LESSON_PLAYER (state) {
+        state.lessonPlayer = {            
+            id: '',
+            name: '',
+            description: '',
+            video: '',
+            views: [],
+        }
+    },
 }
 
 export default mutations
