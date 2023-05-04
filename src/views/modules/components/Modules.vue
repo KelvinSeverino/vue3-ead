@@ -23,6 +23,7 @@
                         <li 
                             v-for="lesson in module.lessons" 
                             :key="lesson.id"
+                            :class="{'active' : lesson.id === lessonInPlayer.id}"
                             @click.prevent="addLessonInPlayer(lesson)">
                             <span v-if="lesson.views.length > 0" class="check active fas fa-check"></span>
                             <span class="nameLesson">{{ lesson.nome }}</span>
@@ -48,6 +49,7 @@ export default {
 
         //const course = computed(() => store.state.courses.courseSelected)
         const modules = computed(() => store.state.courses.courseSelected.modules)
+        const lessonInPlayer = computed(() => store.state.courses.lessonPlayer)
 
         //Abre menu sanfona
         const toggleModule = (moduleId) => {
@@ -62,8 +64,9 @@ export default {
             //course,
             modules,
             showModule,
+            lessonInPlayer,
             toggleModule,
-            addLessonInPlayer
+            addLessonInPlayer,
         }
     },
 }
