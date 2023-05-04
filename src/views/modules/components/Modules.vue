@@ -7,12 +7,19 @@
                     <span class="icon far fa-stream"></span>
                 </div>
 
-                <div class="modules" v-for="module in modules" :key="module.id">
+                <div 
+                    v-for="module in modules" 
+                    :key="module.id"
+                    @click.prevent="toggleModule(module.id)"
+                    :class="[
+                        'modules',
+                        module.id == showModule ? 'active' : ''
+                    ]">
                     <div class="name">
                         <span class="text">{{ module.nome }}</span>
                         <span class="icon fas fa-sort-down"></span>
                     </div>
-                    <ul class="classes">
+                    <ul class="classes" v-show="module.id == showModule">
                         <li v-for="lesson in module.lessons" :key="lesson.id">
                             <span v-if="lesson.views.length > 0" class="check active fas fa-check"></span>
                             <span class="nameLesson">{{ lesson.nome }}</span>
@@ -26,7 +33,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export default {
     name: 'ModulesList',
@@ -34,12 +41,21 @@ export default {
     setup() {
         const store = useStore()
 
+        const showModule = ref('0')
+
         //const course = computed(() => store.state.courses.courseSelected)
         const modules = computed(() => store.state.courses.courseSelected.modules)
 
+        //Abre menu sanfona
+        const toggleModule = (moduleId) => {
+            showModule.value = showModule.value == moduleId ? 0 : moduleId
+        }
+
         return {
             //course,
-            modules
+            modules,
+            showModule,
+            toggleModule
         }
     },
 }
