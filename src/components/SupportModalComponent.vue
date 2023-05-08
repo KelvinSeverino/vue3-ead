@@ -50,7 +50,8 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     name: "ModalSupportComponent",
@@ -70,16 +71,33 @@ export default {
     
     emits: ['closeModal'],
 
-    setup() {
-        const textarea = ref('')
+    setup(props, {emit}) {
+        props.supportReply
+        const store =  useStore()
+        const lesson = computed(() => store.state.courses.lessonPlayer)
+        const description = ref('')
         const loading = ref(false)
 
         const sendForm = () => {
-            
+            loading.value = true
+
+            const params = {
+                lesson: lesson.value.id,
+                description: description.value,
+                status: 'P'
+            }
+
+            store.dispatch('storeSupport', params)
+                .then(() => {
+                    description.value = '' //limpa o formulario
+                    emit('closeModal') //Chama evento para fechar modal
+                })
+                .catch(error => console.log(error.response))
+                .finally(() => loading.value = false)
         }
 
         return {
-            textarea,
+            description,
             loading,
             sendForm
         }
