@@ -9,7 +9,7 @@ const actions = {
 
     storeSupport ({commit}, params) {
         return SupportService.createSupport(params)
-                                .then(support => commit('ADD_NEW_SUPPORT', support)) //Setando o suporte que retornou da API
+                                .then(response => commit('ADD_NEW_SUPPORT', response.data)) //Setando o suporte que retornou da API
     }
 }
 
