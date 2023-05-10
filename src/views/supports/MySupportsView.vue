@@ -15,14 +15,14 @@
                 <div class="left">
                     <div class="card">
                         <div class="title bg-laravel">
-                            <span class="text">Filtros</span>
+                            <span class="text">Filtros ({{ status }})</span>
                         </div>
                         <div class="modules">
                         <ul class="classes">
-                            <li>Todos</li>
-                            <li>Aguardando Minha Resposta</li>
-                            <li>Aguardando Professor</li>
-                            <li>Finalizados</li>
+                            <li :class="{active : status === ''}" @click="getMySupportsWithStatus('')">Todos</li>
+                            <li :class="{active : status === 'A'}" @click="getMySupportsWithStatus('A')">Aguardando Minha Resposta</li>
+                            <li :class="{active : status === 'P'}" @click="getMySupportsWithStatus('P')">Aguardando Professor</li>
+                            <li :class="{active : status === 'F'}" @click="getMySupportsWithStatus('F')">Finalizados</li>
                         </ul>
                         </div>
                     </div>
@@ -59,6 +59,17 @@ export default {
         onMounted(() => {
             store.dispatch('getMySupports', status.value)            
         })
+
+        const getMySupportsWithStatus = (newStatus) => {
+            status.value = newStatus
+
+            store.dispatch('getMySupports', status.value)
+        }
+
+        return {
+            status,
+            getMySupportsWithStatus
+        }
     }
 }
 </script>
