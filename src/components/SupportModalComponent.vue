@@ -84,10 +84,14 @@ export default {
             const params = {
                 lesson: lesson.value.id,
                 description: description.value,
-                status: 'P'
+                status: 'P',
+                support: props.supportReply,
             }
 
-            store.dispatch('storeSupport', params)
+            let actionName = 'storeSupport'
+            if (props.supportReply != '') actionName = 'storeReplyToSupport' 
+
+            store.dispatch(actionName, params)
                 .then(() => {
                     description.value = '' //limpa o formulario
                     emit('closeModal') //Chama evento para fechar modal

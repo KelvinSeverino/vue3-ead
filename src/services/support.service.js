@@ -29,7 +29,7 @@ export default class SupportService extends BaseService {
     static async createReplySupport (params) {
         return new Promise((resolve, reject) => {
             this.request({auth: true})
-                .post('/reply-supports', params)
+                .post('/replies', params)
                 .then(response => resolve(response.data)) //sucesso
                 .catch(error => reject(error.response)) //falha
         })
