@@ -21,7 +21,12 @@ const actions = {
                                     }
                                     commit('ADD_NEW_REPLY_TO_SUPPORT', data)
                                 }) //Setando o suporte que retornou da API
-    }
+    },
+
+    getMySupports ({commit}, status) {
+        return SupportService.getMySupports(status)
+                                .then(response => commit('SET_SUPPORTS', response)) //Setando o suporte que retornou da API
+    },
 }
 
 export default actions

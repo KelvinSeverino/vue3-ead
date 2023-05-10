@@ -13,19 +13,19 @@
             <div class="container">
             
                 <div class="left">
-				<div class="card">
-					<div class="title bg-laravel">
-						<span class="text">Filtros</span>
-					</div>
-					<div class="modules">
-					<ul class="classes">
-						<li>Todos</li>
-						<li>Aguardando Minha Resposta</li>
-						<li>Aguardando Professor</li>
-						<li>Finalizados</li>
-					</ul>
-					</div>
-				</div>
+                    <div class="card">
+                        <div class="title bg-laravel">
+                            <span class="text">Filtros</span>
+                        </div>
+                        <div class="modules">
+                        <ul class="classes">
+                            <li>Todos</li>
+                            <li>Aguardando Minha Resposta</li>
+                            <li>Aguardando Professor</li>
+                            <li>Finalizados</li>
+                        </ul>
+                        </div>
+                    </div>
 				</div>
 
                 <div class="right">
@@ -41,13 +41,25 @@
 </template>
   
 <script>
+import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+
 import SupportsLesson from '@/components/Supports.vue'
 
 export default {
 	name: 'MySupportsView',
 	components: {
 		SupportsLesson
-	}
+	},
+    setup() {
+        const store = useStore()
+
+        const status = ref('')
+
+        onMounted(() => {
+            store.dispatch('getMySupports', status.value)            
+        })
+    }
 }
 </script>
   
