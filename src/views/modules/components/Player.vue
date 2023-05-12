@@ -28,7 +28,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 export default {
     name: 'PlayerScreen',
@@ -37,6 +37,14 @@ export default {
         const store = useStore()
 
         const lesson = computed(() => store.state.courses.lessonPlayer)
+
+        //Fica observando quando o state LessonPlayer mudar seus dados, seja ao mudar de aula
+        watch(() => store.state.courses.lessonPlayer, () => {
+            if (lesson.value.id != ''){
+                //Cenario ideal usar o parametro do player(Youtube, Vero) para identificar o tempo de visualizacao
+                setTimeout(() => store.dispatch('markLessonViewed'), 3000)                
+            }
+        })
 
         return {
             lesson

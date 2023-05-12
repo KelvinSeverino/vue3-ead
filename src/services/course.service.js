@@ -12,4 +12,17 @@ export default class CourseService extends BaseService {
                 .catch(error => reject(error.response)) //falha
         })
     }
+
+    static async markLessonViewed (lessonId) {
+        //Retornando promise, que é uma estrutura de sucesso ou falha da funcao executada
+        return new Promise((resolve, reject) => {
+            //Executa instancia do base.service
+            this.request({auth: true})
+                .post('/lessons/viewed', {
+                    lesson: lessonId
+                })
+                .then(response => resolve(response.data)) //sucesso
+                .catch(error => reject(error.response)) //falha
+        })
+    }
 }
