@@ -43,8 +43,8 @@
                 </div>
                 <div class="groupForm">
                     <i class="far fa-key"></i>
-                    <input type="password" name="password" placeholder="Senha" v-model="password" required>
-                    <i class="far fa-eye buttom"></i>
+                    <input :type="typePassword" name="password" placeholder="Senha" v-model="password" required>
+                    <i class="far fa-eye buttom" @click="toggleShowPassword"></i>
                 </div>
                 <button 
                     :class="[
@@ -85,6 +85,9 @@ export default {
         const password = ref("")
         const loading = ref("")
 
+        const typePassword = ref('password')
+        const toggleShowPassword = () => typePassword.value = typePassword.value === 'password' ? 'text' : 'password'
+
         const auth = () => {
             loading.value = true
 
@@ -119,6 +122,8 @@ export default {
             email,
             password,
             loading,
+            typePassword,
+            toggleShowPassword
         }
     }
 }
