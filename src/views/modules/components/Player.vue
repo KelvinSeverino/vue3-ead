@@ -2,7 +2,7 @@
     <div class="training">
         <div class="card bg-laravel">
             <span class="icon">
-                <img src="images/icons/laravel.svg" alt="">
+                <img :src="require('@/assets/images/icons/laravel.svg')" alt="EspecializaTi">
             </span>
             <span class="title">{{ lesson.name }}</span>
             <router-link :to="{name: 'ead.home'}" class="btn laravel">                
