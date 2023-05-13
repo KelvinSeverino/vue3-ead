@@ -25,8 +25,7 @@ export default {
     },
 
     actions: { //Executa metodos Services para comunicar com API
-        auth ({ state, dispatch }, params) {
-            state.loggedIn
+        auth ({ dispatch }, params) {
             return AuthService.auth(params)
                                 .then(() => dispatch('getUserAuth'))
         },
@@ -39,9 +38,16 @@ export default {
                         .finally(() => commit('CHANGE_LOADING', false))
         },
 
-        forgetPassword ({ state }, params) {
-            state.loggedIn
+        forgetPassword (_, params) {
             return ResetPasswordService.forgetPassword(params)
         },
+
+        logout ({ commit }) {            
+            commit('CHANGE_LOADING', true) //Pre-Loader
+
+            return AuthService.logout()
+                                .then(() => commit('LOGOUT'))
+                                .finally(() => commit('CHANGE_LOADING', false))
+        }
     },
 }
