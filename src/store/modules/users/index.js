@@ -35,7 +35,7 @@ export default {
             commit('CHANGE_LOADING', true)
 
             AuthService.getUserAuth()
-                        .then(response => commit('SET_USER', response.data))
+                        .then(user => commit('SET_USER', user)) //Seta o user retornado da API
                         .finally(() => commit('CHANGE_LOADING', false))
         },
 
