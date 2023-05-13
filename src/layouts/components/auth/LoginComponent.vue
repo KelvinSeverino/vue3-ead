@@ -50,11 +50,12 @@
                     :class="[
                         'btn', 
                         'primary',
-                        loading ? 'loading' : ''
+                        loading || loadingStore ? 'disabled' : ''
                     ]"
                     type="submit" 
                     @click.prevent="auth">
                     <span v-if="loading">Enviando...</span>
+                    <span v-else-if="loadingStore">Validando acesso...</span>
                     <span v-else>Login</span>
                 </button>
             </form>
@@ -72,7 +73,7 @@
 
 <script>
 //import router from '@/router'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { notify } from "@kyvg/vue3-notification";
 
@@ -87,6 +88,16 @@ export default {
         const email = ref("")
         const password = ref("")
         const loading = ref("")
+
+        const loadingStore = computed(() => store.state.loading)
+        watch( //Observa se o loggedIn muda
+            () => store.state.users.loggedIn,
+            (loggedIn) => {
+                if (loggedIn) {
+                    router.push({name: 'ead.home'})
+                }
+            }
+        )
 
         const typePassword = ref('password')
         const toggleShowPassword = () => typePassword.value = typePassword.value === 'password' ? 'text' : 'password'
@@ -123,7 +134,8 @@ export default {
             password,
             loading,
             typePassword,
-            toggleShowPassword
+            toggleShowPassword,
+            loadingStore
         }
     }
 }
