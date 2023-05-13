@@ -6,6 +6,9 @@ import AuthView from '@/views/auth/AuthView.vue'
 import ForgetPasswordView from '@/views/auth/ForgetPasswordView.vue'
 import ResetPasswordView from '@/views/auth/ResetPasswordView.vue'
 
+import store from '@/store'
+import { TOKEN_NAME } from "@/configs"
+
 const routes = [
     {
         path: '/ead',
@@ -49,6 +52,25 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
+})
+
+router.beforeEach(async (to) => {
+    const loggedIn = store.state.users.loggedIn
+
+    //Verifica se nao esta na pagina de Reset Senha e nao possui Status de Logado
+    if (to.name != 'reset.password' && !loggedIn) {
+        const token = await localStorage.getItem(TOKEN_NAME)
+        
+        //Verifica se nao esta nas paginas de Login e Recupera-Senha
+        if (!token && to.name != 'auth' && to.name != 'forgot.password') {
+            return router.push({name: 'auth'})
+        }
+
+        await store.dispatch('getUserAuth')
+                    .catch(() => {
+                        if(to.name != 'auth') return router.push({name: 'auth'})
+                    })
+    } 
 })
 
 export default router
