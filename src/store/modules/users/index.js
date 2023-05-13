@@ -25,9 +25,18 @@ export default {
     },
 
     actions: { //Executa metodos Services para comunicar com API
-        auth ({ state }, params) {
+        auth ({ state, dispatch }, params) {
             state.loggedIn
             return AuthService.auth(params)
+                                .then(() => dispatch('getUserAuth'))
+        },
+        
+        getUserAuth ({ commit }) {
+            commit('CHANGE_LOADING', true)
+
+            AuthService.getUserAuth()
+                        .then(response => commit('SET_USER', response.data))
+                        .finally(() => commit('CHANGE_LOADING', false))
         },
 
         forgetPassword ({ state }, params) {
