@@ -62,7 +62,7 @@ router.beforeEach(async (to) => {
         const token = await localStorage.getItem(TOKEN_NAME)
         
         //Verifica se nao esta nas paginas de Login e Recupera-Senha
-        if (!token && to.name != 'auth' && to.name != 'forgot.password') {
+        if (!token && to.name != 'auth' && to.name != 'forget.password') {
             return router.push({name: 'auth'})
         }
 
