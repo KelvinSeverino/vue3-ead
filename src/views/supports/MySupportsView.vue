@@ -19,10 +19,10 @@
                         </div>
                         <div class="modules">
                         <ul class="classes">
-                            <li :class="{active : status === ''}" @click="getMySupportsWithStatus('')">Todos</li>
-                            <li :class="{active : status === 'A'}" @click="getMySupportsWithStatus('A')">Aguardando Minha Resposta</li>
-                            <li :class="{active : status === 'P'}" @click="getMySupportsWithStatus('P')">Aguardando Professor</li>
-                            <li :class="{active : status === 'F'}" @click="getMySupportsWithStatus('F')">Finalizados</li>
+                            <li :class="{active : status === ''}" @click="getMySupports(1, '')">Todos</li>
+                            <li :class="{active : status === 'A'}" @click="getMySupports(1, 'A')">Aguardando Minha Resposta</li>
+                            <li :class="{active : status === 'P'}" @click="getMySupports(1, 'P')">Aguardando Professor</li>
+                            <li :class="{active : status === 'F'}" @click="getMySupports(1, 'F')">Finalizados</li>
                         </ul>
                         </div>
                     </div>
@@ -31,7 +31,12 @@
                 <div class="right">
                     <div class="content">
                         <div class="comments">
-                          <supports-lesson/>
+                            <supports-lesson/>
+                            
+                            <pagination
+                                :data="supports"
+                                @pagination-change-page="changePage"
+                            ></pagination>
                         </div>
                     </div>
                 </div>
@@ -41,36 +46,53 @@
 </template>
   
 <script>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import { useStore } from 'vuex'
+import { Bootstrap5Pagination } from 'laravel-vue-pagination'
+//import 'bootstrap/dist/css/bootstrap.css';
+//import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import SupportsLesson from '@/components/Supports.vue'
 
 export default {
 	name: 'MySupportsView',
-	components: {
-		SupportsLesson
-	},
     setup() {
         const store = useStore()
 
-        const status = ref('')
+        const status = ref('')  
 
-        onMounted(() => {
-            store.dispatch('getMySupports', status.value)            
-        })
+        const supports = ref({});
 
-        const getMySupportsWithStatus = (newStatus) => {
+        const changePage = (page) => {
+            getMySupports(page, '')
+        }
+
+        const getMySupports = async (page = 1, newStatus = '') => {
             status.value = newStatus
 
-            store.dispatch('getMySupports', status.value)
+            store.dispatch('getMySupports', {
+                params: page ? { page: page } : null, 
+                status: status.value
+            }).then(() => {
+                supports.value = JSON.parse(JSON.stringify(store.state.supports.supports))
+            })
         }
+
+        onBeforeMount(() => {
+            getMySupports() 
+        })         
 
         return {
             status,
-            getMySupportsWithStatus
+            supports,
+            getMySupports,
+            changePage,
         }
-    }
+    },
+	components: {
+		SupportsLesson,
+        pagination: Bootstrap5Pagination
+	}
 }
 </script>
   

@@ -1,10 +1,21 @@
 const state = {
     supports: {
-        data: [],
+        data: [],         
+        links: {
+            first: "",
+            last: "",
+            prev: "",
+            next: ""
+        },
         meta: {
-            total: 0,
-            page: 0,
-            last_page: 0
+            current_page: 0,
+            from: 0,
+            last_page: 0,
+            links: [],
+            path: "",
+            per_page: 0,
+            to: 0,
+            total: 0
         }
     }
 }
